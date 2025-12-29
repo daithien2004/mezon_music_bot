@@ -2,9 +2,10 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { NezonModule } from '@n0xgg04/nezon';
 import { PingHandler } from './handlers/ping.handler';
-import { ButtonHandler } from './handlers/button.handler';
-import { EmbedHandler } from './handlers/embed.handler';
-import { FormHandler } from './handlers/form.handler';
+import { TarotHandler } from './handlers/tarot.handler';
+import { NumerologyHandler } from './handlers/numerology.handler';
+import { HoroscopeHandler } from './handlers/horoscope.handler';
+import { UtilityHandler } from './handlers/utility.handler';
 
 @Module({
   imports: [
@@ -19,9 +20,10 @@ import { FormHandler } from './handlers/form.handler';
   controllers: [],
   providers: [
     PingHandler,
-    ButtonHandler,
-    EmbedHandler,
-    FormHandler,
+    TarotHandler,
+    NumerologyHandler,
+    HoroscopeHandler,
+    UtilityHandler,
   ],
 })
 export class AppModule {}

@@ -1,19 +1,19 @@
-# Mezon Bot Nezon (Full Example)
+# Mezon Music Bot
 
-This project contains a Mezon bot built with NestJS and the `nezon` library, including all the examples from the documentation.
+Bot nghe nhạc cho Mezon, xây dựng với NestJS và `@n0xgg04/nezon`.
 
 ## Setup
 
-1.  **Install dependencies**:
+1.  **Cài dependencies**:
     ```bash
     npm install
     ```
 
-2.  **Configure Environment**:
-    - Copy `.env.example` to `.env`.
-    - Fill in `MEZON_TOKEN` and `MEZON_BOT_ID`.
+2.  **Cấu hình môi trường**:
+    - Copy `.env.example` thành `.env`
+    - Điền `MEZON_TOKEN` và `MEZON_BOT_ID`
 
-3.  **Run the bot**:
+3.  **Chạy bot**:
     ```bash
     # Development
     npm run start:dev
@@ -23,22 +23,26 @@ This project contains a Mezon bot built with NestJS and the `nezon` library, inc
     npm run start:prod
     ```
 
-## Available Commands
+## Commands
 
-The following commands effectively demonstrate the features of the `@n0xgg04/nezon` library:
+| Lệnh | Aliases | Mô tả |
+|------|---------|-------|
+| `ping` | `pong` | Kiểm tra bot còn sống |
+| `tarot` | `boidich` | Rút 1 lá bài Tarot ngẫu nhiên (Daily nếu không tham số) |
+| `tarot spread` | `tarot 3` | Trải bài 3 lá (Quá khứ - Hiện tại - Tương lai) |
+| `thanso <dd/mm/yyyy>` | `numerology` | Xem Thần Số Học (Con số chủ đạo) |
+| `tuvi <cung>` | `horoscope` | Xem Tử Vi hàng ngày cho 12 cung hoàng đạo |
+| `xinxam` | `gieoque` | Xin xăm Quan Âm (Thơ + Lời giải) |
+| `taixiu` | `sicbo` | Chơi Tài Xỉu (3 xúc xắc) |
+| `tungxu` | `coinflip` | Tung đồng xu (Sấp/Ngửa) |
+| `qr <text>` | `qrcode` | Tạo mã QR từ văn bản/link |
 
--   `ping`: Replies with "pong".
--   `button`: detailed example of a button with a `customId` and a separate component handler.
--   `onclick`: Example of buttons using inline `onClick` handlers.
--   `embed`: Demonstrates creating a rich embed message.
--   `markdown`: Demonstrates using markdown in an embed description.
--   `form`: Demonstrates a complex form with text fields and select menus inside an embed.
+## Cấu trúc
 
-## Structure
-
--   `src/app.module.ts`: Configures `NezonModule` and registers handlers.
--   `src/handlers/`: Contains individual feature handlers.
-    -   `ping.handler.ts`: Basic command.
-    -   `button.handler.ts`: Button interactions.
-    -   `embed.handler.ts`: Embeds and markdown.
-    -   `form.handler.ts`: Forms and inputs.
+- `src/app.module.ts`: Cấu hình module chính
+- `src/handlers/tarot.handler.ts`: Logic bói bài Tarot
+- `src/handlers/numerology.handler.ts`: Logic Thần Số Học
+- `src/handlers/horoscope.handler.ts`: Logic Tử Vi 12 Cung Hoàng Đạo
+- `src/handlers/xinxam.handler.ts`: Logic Xin Xăm
+- `src/handlers/game.handler.ts`: Logic Mini Game (Tài Xỉu, Tung Xu)
+- `src/handlers/utility.handler.ts`: Logic Tiện ích (QR Code)
