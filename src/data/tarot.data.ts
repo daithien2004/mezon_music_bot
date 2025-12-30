@@ -303,3 +303,52 @@ export const TAROT_DECK: TarotCard[] = [
     suit: 'wands'
   }
 ];
+
+export interface CardMeta {
+  element: string;
+  astrology?: string; // Planet or Zodiac
+  yesNo: 'Có' | 'Không' | 'Có thể';
+}
+
+// Default metadata for Minor Arcana Suits
+export const SUIT_META: Record<string, { element: string }> = {
+  wands: { element: '🔥 Lửa' },
+  cups: { element: '💧 Nước' },
+  swords: { element: '💨 Khí' },
+  pentacles: { element: '🌍 Đất' },
+};
+
+// Specific metadata for Major Arcana (ID based)
+export const MAJOR_META: Record<string, CardMeta> = {
+  ar00: { element: 'Khí', astrology: 'Sao Thiên Vương', yesNo: 'Có' }, // Fool
+  ar01: { element: 'Khí', astrology: 'Sao Thủy', yesNo: 'Có' }, // Magician
+  ar02: { element: 'Nước', astrology: 'Mặt Trăng', yesNo: 'Có thể' }, // High Priestess
+  ar03: { element: 'Đất', astrology: 'Sao Kim', yesNo: 'Có' }, // Empress
+  ar04: { element: 'Lửa', astrology: 'Bạch Dương', yesNo: 'Có' }, // Emperor
+  ar05: { element: 'Đất', astrology: 'Kim Ngưu', yesNo: 'Có' }, // Hierophant
+  ar06: { element: 'Khí', astrology: 'Song Tử', yesNo: 'Có' }, // Lovers
+  ar07: { element: 'Nước', astrology: 'Cự Giải', yesNo: 'Có' }, // Chariot
+  ar08: { element: 'Lửa', astrology: 'Sư Tử', yesNo: 'Có' }, // Strength
+  ar09: { element: 'Đất', astrology: 'Xử Nữ', yesNo: 'Không' }, // Hermit
+  ar10: { element: 'Lửa', astrology: 'Sao Mộc', yesNo: 'Có' }, // Wheel of Fortune
+  ar11: { element: 'Khí', astrology: 'Thiên Bình', yesNo: 'Có' }, // Justice
+  ar12: { element: 'Nước', astrology: 'Sao Hải Vương', yesNo: 'Không' }, // Hanged Man
+  ar13: { element: 'Nước', astrology: 'Bọ Cạp', yesNo: 'Không' }, // Death
+  ar14: { element: 'Lửa', astrology: 'Nhân Mã', yesNo: 'Có' }, // Temperance
+  ar15: { element: 'Đất', astrology: 'Ma Kết', yesNo: 'Không' }, // Devil
+  ar16: { element: 'Lửa', astrology: 'Sao Hỏa', yesNo: 'Không' }, // Tower
+  ar17: { element: 'Khí', astrology: 'Bảo Bình', yesNo: 'Có' }, // Star
+  ar18: { element: 'Nước', astrology: 'Song Ngư', yesNo: 'Không' }, // Moon
+  ar19: { element: 'Lửa', astrology: 'Mặt Trời', yesNo: 'Có' }, // Sun
+  ar20: { element: 'Lửa', astrology: 'Sao Diêm Vương', yesNo: 'Có thể' }, // Judgment
+  ar21: { element: 'Đất', astrology: 'Sao Thổ', yesNo: 'Có' }, // World
+};
+
+// Helper to check Yes/No for Minor Arcana based on number/suit (simplified logic)
+// Aces, 3, 6, 9, 10 are usually YES. 5, 7 are usually NO.
+// This is a simplified lookup for the sake of the bot feature.
+export const MINOR_YES_NO: Record<string, 'Có' | 'Không' | 'Có thể'> = {
+  'Ace': 'Có', 'Two': 'Có thể', 'Three': 'Có', 'Four': 'Có', 'Five': 'Không',
+  'Six': 'Có', 'Seven': 'Không', 'Eight': 'Có thể', 'Nine': 'Có', 'Ten': 'Có',
+  'Page': 'Có', 'Knight': 'Có', 'Queen': 'Có', 'King': 'Có'
+};

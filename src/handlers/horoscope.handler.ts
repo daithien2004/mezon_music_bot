@@ -30,8 +30,15 @@ const ZODIAC_SIGNS: ZodiacSign[] = [
   { id: 'pisces', name: 'Song Ngư', symbol: '♓', dateRange: '19/2 - 20/3' },
 ];
 
-const LUCKY_COLORS = ['Đỏ', 'Xanh Dương', 'Xanh Lá', 'Vàng', 'Tím', 'Cam', 'Hồng', 'Trắng', 'Đen', 'Xám'];
-const LUCKY_NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 22, 69, 88, 99];
+const LUCKY_COLORS = ['Đỏ', 'Xanh Dương', 'Xanh Lá', 'Vàng', 'Tím', 'Cam', 'Hồng', 'Trắng', 'Đen', 'Xám', 'Vàng Kim', 'Bạc', 'Nâu', 'Xanh Ngọc'];
+const LUCKY_NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 22, 69, 88, 99, 15, 27, 33];
+const DIRECTIONS = ['Đông', 'Tây', 'Nam', 'Bắc', 'Đông Bắc', 'Đông Nam', 'Tây Bắc', 'Tây Nam'];
+const LUCKY_HOURS = [
+  '01:00 - 03:00', '03:00 - 05:00', '07:00 - 09:00', 
+  '09:00 - 11:00', '13:00 - 15:00', '15:00 - 17:00', 
+  '19:00 - 21:00', '21:00 - 23:00'
+];
+
 const ADVICES = [
   'Hãy cẩn thận lời ăn tiếng nói hôm nay.',
   'Một cơ hội bất ngờ sẽ đến vào buổi chiều.',
@@ -43,12 +50,16 @@ const ADVICES = [
   'Một người cũ có thể liên lạc lại với bạn.',
   'Sức khỏe cần được chú trọng, ngủ sớm nhé.',
   'Màu sắc may mắn sẽ mang lại vận khí tốt.',
+  'Hôm nay là ngày tốt để bắt đầu kế hoạch mới.',
+  'Hãy lắng nghe trực giác của mình.',
+  'Tránh tranh cãi với đồng nghiệp.',
+  'Một món quà nhỏ sẽ làm bạn vui vẻ.',
 ];
 
 @Injectable()
 export class HoroscopeHandler {
 
-  // Seeded Random Helper (reused simplify logic)
+  // Seeded Random Helper
   private getSeededRandom(seedStr: string): () => number {
     let seed = 0;
     for (let i = 0; i < seedStr.length; i++) {
@@ -90,36 +101,49 @@ export class HoroscopeHandler {
       return;
     }
 
-    // Daily Logic
+    // Daily & User Logic
     const date = new Date();
     date.setHours(date.getHours() + 7);
     const dateString = date.toISOString().split('T')[0];
+    const senderId = message.senderId || 'guest';
     
-    // Seed = Date + SignID (Same for everyone of that sign on that day)
-    const seed = `${dateString}_${sign.id}`;
+    // Seed = Date + SignID + UserID -> Truly unique for each user/day
+    const seed = `${dateString}_${sign.id}_${senderId}`;
     const rng = this.getSeededRandom(seed);
 
     // Randomize specs
     const loveScore = Math.floor(rng() * 5) + 1; // 1-5
     const careerScore = Math.floor(rng() * 5) + 1;
     const moneyScore = Math.floor(rng() * 5) + 1;
+    const energyLevel = Math.floor(rng() * 41) + 60; // 60-100% (Make it positive)
     
     const luckyColor = LUCKY_COLORS[Math.floor(rng() * LUCKY_COLORS.length)];
     const luckyNumber = LUCKY_NUMBERS[Math.floor(rng() * LUCKY_NUMBERS.length)];
+    const luckyHour = LUCKY_HOURS[Math.floor(rng() * LUCKY_HOURS.length)];
+    const luckyDir = DIRECTIONS[Math.floor(rng() * DIRECTIONS.length)];
     const advice = ADVICES[Math.floor(rng() * ADVICES.length)];
+    
+    // Get a compatible sign (not itself)
+    const otherSigns = ZODIAC_SIGNS.filter(s => s.id !== sign.id);
+    const compatibleSign = otherSigns[Math.floor(rng() * otherSigns.length)];
 
     const stars = (n: number) => '⭐'.repeat(n) + '☆'.repeat(5 - n);
+    const avgScore = (loveScore + careerScore + moneyScore) / 3;
+    const color = avgScore >= 4 ? '#F1C40F' : (avgScore >= 3 ? '#3498DB' : '#95A5A6');
 
     const embed = new EmbedBuilder()
       .setTitle(`${sign.symbol} Tử Vi ${sign.name} (${sign.dateRange})`)
-      .setDescription(`**Dự báo ngày ${dateString}**`)
+      .setDescription(`**Dự báo cá nhân ngày ${dateString}**\n*Chào bạn, đây là thông điệp riêng dành cho ngày hôm nay của bạn.*`)
       .addField('💘 Tình cảm', stars(loveScore), true)
       .addField('💼 Sự nghiệp', stars(careerScore), true)
       .addField('💰 Tài lộc', stars(moneyScore), true)
-      .addField('🍀 May mắn', `Màu: **${luckyColor}** | Số: **${luckyNumber}**`, false)
+      .addField('⚡ Năng lượng', `**${energyLevel}%**`, true)
+      .addField('🤝 Cung hợp hạp', `**${compatibleSign.symbol} ${compatibleSign.name}**`, true)
+      .addField('🕒 Giờ hoàng đạo', `**${luckyHour}**`, true)
+      .addField('🍀 May mắn', `Màu: **${luckyColor}** | Số: **${luckyNumber}** | Hướng: **${luckyDir}**`, false)
       .addField('💡 Lời khuyên', advice, false)
-      .setColor('#E67E22')
-      .setFooter('Daily Horoscope');
+      .setColor(color)
+      .setFooter(`Personalized for ${(message as any).username || 'User'}`);
 
     await message.reply(SmartMessage.text('').addEmbed(embed));
   }

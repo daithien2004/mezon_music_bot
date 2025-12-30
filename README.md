@@ -25,24 +25,21 @@ Bot nghe nhạc cho Mezon, xây dựng với NestJS và `@n0xgg04/nezon`.
 
 ## Commands
 
-| Lệnh | Aliases | Mô tả |
-|------|---------|-------|
-| `ping` | `pong` | Kiểm tra bot còn sống |
-| `tarot` | `boidich` | Rút 1 lá bài Tarot ngẫu nhiên (Daily nếu không tham số) |
-| `tarot spread` | `tarot 3` | Trải bài 3 lá (Quá khứ - Hiện tại - Tương lai) |
-| `thanso <dd/mm/yyyy>` | `numerology` | Xem Thần Số Học (Con số chủ đạo) |
-| `tuvi <cung>` | `horoscope` | Xem Tử Vi hàng ngày cho 12 cung hoàng đạo |
-| `xinxam` | `gieoque` | Xin xăm Quan Âm (Thơ + Lời giải) |
-| `taixiu` | `sicbo` | Chơi Tài Xỉu (3 xúc xắc) |
-| `tungxu` | `coinflip` | Tung đồng xu (Sấp/Ngửa) |
-| `qr <text>` | `qrcode` | Tạo mã QR từ văn bản/link |
+| Lệnh | Mô tả | Chi tiết / Ví dụ |
+|------|---------|-----------------|
+| `ping` | Kiểm tra bot còn sống | Aliases: `pong` |
+| `tarot` | Bói bài Tarot | • `/tarot`: Rút thông điệp ngày (Daily)<br>• `/tarot random`: Rút 1 lá ngẫu nhiên<br>• `/tarot spread` hoặc `/tarot 3`: Trải bài 3 lá (Quá khứ - Hiện tại - Tương lai)<br>• `/tarot love`: Trải bài Tình yêu<br>• `/tarot career`: Trải bài Công việc<br>• `/tarot ask <câu hỏi>`: Hỏi Yes/No<br>• `/tarot soul <dd/mm/yyyy>`: Xem lá bài linh hồn |
+| `thanso <dd/mm/yyyy>` | Xem Thần Số Học | Aliases: `numerology`. Xem con số chủ đạo theo hệ Pythagoras |
+| `tuvi <cung>` | Xem Tử Vi 12 cung | Aliases: `horoscope`, `cung`. Xem vận mệnh, màu sắc, con số may mắn hàng ngày |
+| `qr <nội dung>` | Tạo mã QR | Aliases: `qrcode`. Tạo mã QR từ văn bản hoặc liên kết |
 
-## Cấu trúc
+## Cấu trúc thư mục
 
-- `src/app.module.ts`: Cấu hình module chính
-- `src/handlers/tarot.handler.ts`: Logic bói bài Tarot
-- `src/handlers/numerology.handler.ts`: Logic Thần Số Học
-- `src/handlers/horoscope.handler.ts`: Logic Tử Vi 12 Cung Hoàng Đạo
-- `src/handlers/xinxam.handler.ts`: Logic Xin Xăm
-- `src/handlers/game.handler.ts`: Logic Mini Game (Tài Xỉu, Tung Xu)
-- `src/handlers/utility.handler.ts`: Logic Tiện ích (QR Code)
+- `src/app.module.ts`: Cấu hình module chính và đăng ký handlers.
+- `src/handlers/`: Chứa các file xử lý lệnh.
+    - `tarot.handler.ts`: Logic bói bài Tarot chuyên sâu.
+    - `numerology.handler.ts`: Logic tính toán Thần Số Học.
+    - `horoscope.handler.ts`: Logic dự báo Tử Vi hàng ngày.
+    - `utility.handler.ts`: Các tiện ích như tạo mã QR.
+    - `ping.handler.ts`: Lệnh kiểm tra trạng thái bot.
+- `src/data/`: Chứa dữ liệu tĩnh (Tarot deck, v.v.).

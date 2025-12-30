@@ -87,9 +87,6 @@ const NUMEROLOGY_MEANINGS: Record<number, { title: string; desc: string; strengt
 export class NumerologyHandler {
   
   private calculateLifePath(day: number, month: number, year: number): number {
-    // Helper to sum digits of a number until it's a single digit (or master number logic if applied appropriately)
-    // BUT Standard Pythagoras method sums the reduced day + reduced month + reduced year
-    
     const reduce = (n: number): number => {
       let sum = n;
       while (sum > 9 && sum !== 11 && sum !== 22 && sum !== 33) {
@@ -98,16 +95,12 @@ export class NumerologyHandler {
       return sum;
     };
 
-    // Calculate sum of reduced components
     const daySum = reduce(day);
     const monthSum = reduce(month);
     const yearSum = reduce(year);
 
     let totalSum = daySum + monthSum + yearSum;
     
-    // Reduce total sum, respecting Master Numbers rules (11, 22, 33)
-    // If resulting sum is 11, 22, 33 -> Keeper
-    // Else reduce to single digit
     while (totalSum > 9 && totalSum !== 11 && totalSum !== 22 && totalSum !== 33) {
       totalSum = totalSum.toString().split('').reduce((a, b) => a + parseInt(b), 0);
     }
@@ -126,7 +119,6 @@ export class NumerologyHandler {
       return;
     }
 
-    // Validate format DD/MM/YYYY or DD-MM-YYYY
     const parts = input.match(/^(\d{1,2})[\/-](\d{1,2})[\/-](\d{4})$/);
     if (!parts) {
       await message.reply(SmartMessage.text('🚫 Định dạng ngày sai. Vui lòng dùng `DD/MM/YYYY`. Ví dụ: `15/05/2000`'));
@@ -137,7 +129,6 @@ export class NumerologyHandler {
     const month = parseInt(parts[2], 10);
     const year = parseInt(parts[3], 10);
 
-    // Basic date validation
     if (day < 1 || day > 31 || month < 1 || month > 12) {
       await message.reply(SmartMessage.text('🚫 Ngày tháng không hợp lệ.'));
       return;
