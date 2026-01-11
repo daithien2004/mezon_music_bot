@@ -31,9 +31,6 @@ export class HelpHandler {
 \`*qr <nội dung>\` → Tạo mã QR
 \`*ping\` → Kiểm tra bot
 
-💬 **GỬI LỆNH QUA DM**
-\`*dm @user *lệnh\` → Gửi gợi ý lệnh cho ai đó qua DM
-
 ❓ **TRỢ GIÚP**
 \`*help\` → Xem danh sách lệnh
     `.trim();

@@ -7,7 +7,7 @@ import { NumerologyHandler } from './handlers/numerology.handler';
 import { HoroscopeHandler } from './handlers/horoscope.handler';
 import { UtilityHandler } from './handlers/utility.handler';
 import { HelpHandler } from './handlers/help.handler';
-import { DmHandler } from './handlers/dm.handler';
+import { TarotApiService } from './services/tarot-api.service';
 
 @Module({
   imports: [
@@ -21,13 +21,13 @@ import { DmHandler } from './handlers/dm.handler';
   ],
   controllers: [],
   providers: [
+    TarotApiService,
     PingHandler,
     TarotHandler,
     NumerologyHandler,
     HoroscopeHandler,
     UtilityHandler,
     HelpHandler,
-    DmHandler,
   ],
 })
 export class AppModule {}
