@@ -18,6 +18,9 @@ import { HealthController } from './health.controller';
     NezonModule.forRoot({
       token: process.env.MEZON_TOKEN ?? '',
       botId: process.env.MEZON_BOT_ID ?? '',
+      autoRetry: true,           // Enable automatic reconnection
+      maxRetry: undefined,        // Unlimited retry attempts
+      retryDuration: undefined,   // No time limit for retries
     }),
   ],
   controllers: [HealthController],
